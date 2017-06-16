@@ -1,0 +1,24 @@
+#Esquema com o nome dos dados do excel
+Partido(UF,Sigla Partido)
+	chave primaria:(UF,Sigla Partido) ;
+	
+Candidato(CPF do candidato,UF,Sigla Partido, Número Candidato, Cargo, Nome)
+	chave primaria(CPF do candidato);
+	chave estrangeira(UF,Sigla Partido) referencia Partido;
+	
+Partido_Comite(UF, Sigla Partido,Tipo Comite)
+	chave primaria(UF, Sigla Partido,Tipo Comite)
+	chave estrangeira(UF, Sigla Partido) referencia Partido;
+	
+Doador(CPF/CNPJ do doador, Nome do doador)
+	chave primaria(CPF/CNPJ do doador);
+	
+Doacao_Paritdo(DoacaoID,CPF/CNPJ do doador,UF,Sigla Partido,Tipo do documento, Número do documento,Data da receita,Valor receita,Tipo receita);
+	chave primaria(DoacaoID)
+	chave estrangeira(UF,Sigla Partido) referencia Partido
+	chave estrangeira(CPF/CNPJ do doador) referencia Doador;
+	
+Doacao_Candidato(DoacaoID,CPF/CNPJ do doador,CPF do candidato,Número Recibo Eleitoral,Número do documento,Data da receita,Valor receita,Tipo receita)
+	chave primaria(DoacaoID)
+	chave estrangeira(CPF do candidato) referencia Candidato
+	chave estrangeira(CPF/CNPJ do doador) referencia Doador;
