@@ -1,18 +1,18 @@
 CREATE TABLE Partido(
+	id INT,
 	uf CHAR(2),
 	sigla CHAR(10),
-	PRIMARY KEY(uf,sigla)
+	PRIMARY KEY(id)
 );
 
 CREATE TABLE Candidato(
 	cpf REAL,
-	ufPartido CHAR(2),
-	siglaPartido CHAR(10),
+	idPartido INT,
 	numero INT,
 	cargo TEXT(100),
 	nome TEXT(100),
 	PRIMARY KEY(cpf),
-	FOREIGN KEY(ufPartido,siglaPartido) REFERENCES Partido(uf,sigla)
+	FOREIGN KEY(idPartido) REFERENCES Partido(id)
 );
 
 CREATE TABLE Doador(
@@ -22,25 +22,23 @@ CREATE TABLE Doador(
 );
 
 CREATE TABLE Partido_Comite(
-	ufPartido CHAR(2),
-	siglaPartido CHAR(10),
+	idPartido INT,
 	nome TEXT(100),
-	PRIMARY KEY(ufPartido,siglaPartido,nome(100)),
-	FOREIGN KEY(ufPartido,siglaPartido) REFERENCES Partido(uf,sigla)
+	PRIMARY KEY(idPartido, nome(100)),
+	FOREIGN KEY(idPartido) REFERENCES Partido(id)
 );
 
 CREATE TABLE Doacao_Partido(
 	doacaoID INT,
 	cpfDoador REAL,
-	ufPartido CHAR(2),
-	siglaPartido CHAR(10),
+	idPartido INT,
 	tipoDoDocumento TEXT(100),
 	numeroDoDocumento TEXT(100),
 	data DATE,
 	valor REAL,
 	tipo TEXT(100),
 	PRIMARY KEY(doacaoID),
-	FOREIGN KEY(ufPartido,siglaPartido) REFERENCES Partido(uf,sigla),
+	FOREIGN KEY(idPartido) REFERENCES Partido(id),
 	FOREIGN KEY(cpfDoador) REFERENCES Doador(cpf)
 );
 	
