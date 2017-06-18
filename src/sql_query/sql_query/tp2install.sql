@@ -4,7 +4,7 @@ use ibd_tp;
 
 DROP TABLE if exists Partido;
 CREATE TABLE Partido(
-	id INT,
+	id INT AUTO_INCREMENT,
 	uf CHAR(2),
 	sigla VARCHAR(10),
 	PRIMARY KEY(id)
