@@ -19,12 +19,14 @@ SELECT nome
 FROM Candidato
 WHERE cargo = 'Senador'
 ORDER BY nome;
+-- 0s
 
 -- Lista as doações para candidatos com valores superior a 10.000.
 SELECT numeroReciboEleitoral, numeroDocumento, data, valor
 FROM Doacao_Candidato
 WHERE valor > 10000
 ORDER BY valor;
+-- 0.05s
 
 -- ---------------------------------------------- --
 -- 3 consultas envolvendo a junção de duas relações:
@@ -36,6 +38,7 @@ FROM Candidato JOIN Partido
 WHERE Candidato.idPartido = Partido.id AND
 	  Partido.sigla = 'PT'
 ORDER BY nome;
+-- 0s
 
 -- Lista das doações para partidos maiores que 100.000.
 SELECT Partido.sigla, Doacao_Partido.data, Doacao_Partido.valor
@@ -43,12 +46,14 @@ FROM Partido JOIN Doacao_Partido
 WHERE Partido.id = Doacao_Partido.idPartido AND
 	  Doacao_Partido.valor > 100000
 ORDER BY data;
+-- 0s
 
 -- Lista dos comitês que receberam doações.
 SELECT Partido_Comite.nome, Doacao_Partido.valor
 FROM Partido_Comite JOIN Doacao_Partido
 WHERE Doacao_Partido.idPartido = Partido_Comite.idPartido
 ORDER BY Partido_Comite.nome;
+-- 0s
 
 
 -- ------------------------------------------------------- --
@@ -61,6 +66,7 @@ FROM Doador JOIN Doacao_Partido JOIN Partido
 WHERE Doador.id = Doacao_Partido.idDoador AND
 	  Doacao_Partido.idPartido = Partido.id
 ORDER BY Doacao_Partido.valor;
+-- 0s
 
 -- Lista dos candidatos que receberam doações
 SELECT Candidato.nome, Partido.sigla, Partido.uf, Doador.nome, Doacao_Candidato.valor, Doacao_Candidato.data
@@ -69,6 +75,7 @@ WHERE Doacao_Candidato.cpfCandidato = Candidato.cpf AND
 	  Doacao_Candidato.idDoador = Doador.id AND
       Candidato.idPartido = Partido.id
 ORDER BY valor;
+-- 1.10s
 
 -- Lista que mostra quais candidatos tiveram doações para seu partido, 
 -- e que o partido tem um comitê.
@@ -78,6 +85,7 @@ WHERE Partido_Comite.idPartido = Doacao_Partido.idPartido AND
 	  Partido_Comite.idPartido = Candidato.idPartido AND
 	  Doacao_Partido.idDoador = Doador.id
 ORDER BY Partido_Comite.nome;
+-- 0.15s
 
 -- -------------------------------------------------------------------- --
 -- 2 consultas envolvendo funções de agregação sobre o resultado da junção
@@ -96,6 +104,7 @@ JOIN (SELECT Doador.nome, SUM(Doacao_Candidato.valor) AS somaCandidato
 	  WHERE Doador.id = Doacao_Candidato.idDoador
 	  GROUP BY Doador.nome) AS Y
 WHERE X.nome = Y.nome;
+-- 5.10s
 
 -- Lista a soma de quanto cada partido recebeu de doações, considerando
 -- apenas doações aos candidatos.
@@ -104,3 +113,4 @@ FROM Candidato JOIN Doacao_Candidato JOIN Partido
 WHERE Candidato.cpf = Doacao_Candidato.cpfCandidato AND
 	  Candidato.idPartido = Partido.id
 GROUP BY Candidato.idPartido;
+-- 0.20s`
